@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_background">#000000</color>
+    <color name="primary_accent">#FF5722</color> <!-- Vibrant Safety Orange for North -->
+    <color name="mag_accent">#00E5FF</color>     <!-- Distinct Cyan for Magnetic North -->
+    <color name="cardinal_text">#FFFFFF</color>
+    <color name="ticks_primary">#E0E0E0</color>
+    <color name="ticks_secondary">#505050</color>
+</resources>

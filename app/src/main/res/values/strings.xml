@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Compass</string>
+    <string name="complication_label">Heading</string>
+    <string name="heading_unknown">--</string>
+    <string name="calibrate_banner_text">Tilt in a figure 8 to calibrate compass</string>
+    <string name="location_rationale_title">True North</string>
+    <string name="location_rationale_message">Compass uses your approximate location strictly on-device to calculate magnetic declination (True North) using Android\'s built-in World Magnetic Model.\n\nNo location data is ever recorded, stored, or sent across any network.</string>
+    <string name="location_rationale_confirm">Allow</string>
+    <string name="location_rationale_dismiss">Use Magnetic</string>
+    <string name="mode_true_north">True North</string>
+    <string name="mode_magnetic_north">Magnetic North</string>
+</resources>
