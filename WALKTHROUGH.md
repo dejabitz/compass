@@ -424,7 +424,9 @@ To enhance backcountry navigation without sacrificing privacy or offline capabil
 
 ### Offline Peer-to-Peer Architecture (Wearable Data Layer API)
 Smartphones and watches communicate locally via Bluetooth or direct Wi-Fi using the Google Play Services **Wearable Data Layer API**:
-- **Zero Internet Required:** The phone and watch communicate directly without routing through external servers or the cloud.
+- **Zero Internet Required:** Neither the watch app nor the phone companion app requires `android.permission.INTERNET`. Data does not route through external servers or the cloud when devices are paired.
+- **Backcountry Operation:** Works even with both devices in **Airplane Mode** (with Bluetooth enabled) or miles away from any cellular connectivity.
+- **No Bluetooth Permissions Needed:** Because Google Play Services handles the RFCOMM/BLE radio links as a system service, your app doesn't even need runtime `BLUETOOTH_CONNECT` permissions.
 - **Role Division:**
   - **Mobile Phone (Rich UI & Management):** Phone displays large offline topo maps, parses downloaded `.gpx` files, and allows naming and organizing geocaching waypoints.
   - **Wear OS Watch (Glanceable Navigation):** Receives the active target waypoint and uses its local magnetometer and sensors to guide the user hands-free on the trail.

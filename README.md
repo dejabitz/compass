@@ -23,7 +23,7 @@ A clean, battery-efficient, no-network, no-ads, open-source compass application 
 
 - **Bearing Lock (Crown Navigation):** Rotate the digital crown to lock a target bearing with off-course guidance and haptic feedback.
 - **Waypoint GPS Navigation:** Direct-to waypoint navigation (geocaching style) showing Great Circle bearing, distance, and arrival haptics.
-- **Mobile Companion App:** Companion Android mobile app syncing offline GPX tracks and waypoints to the watch via the Wearable Data Layer API (Bluetooth), keeping both devices completely offline.
+- **Mobile Companion App:** Companion Android mobile app syncing offline GPX tracks and waypoints to the watch via the Wearable Data Layer API (peer-to-peer over Bluetooth without requiring `INTERNET` permission).
 
 ## Building
 
