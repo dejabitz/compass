@@ -30,14 +30,11 @@ class CompassViewModel(application: Application) : AndroidViewModel(application)
 
     val uiState: StateFlow<CompassState> = combine(
         sensorManager.rawAzimuth,
-        sensorManager.pitch,
-        sensorManager.roll,
-        sensorManager.accuracy,
         declinationManager.declination,
         _isTrueNorth,
-        declinationManager.hasPermission,
         _isAmbient
-    ) { rawAzimuth, pitch, roll, accuracy, declination, isTrueNorth, hasPerm, isAmbient ->
+    ) { rawAzimuth, declination, isTrueNorth, isAmbient ->
+        val hasPerm = declinationManager.hasPermission.value
         val effectiveAzimuth = if (isTrueNorth && hasPerm) {
             (rawAzimuth + declination + 360f) % 360f
         } else {
@@ -46,9 +43,9 @@ class CompassViewModel(application: Application) : AndroidViewModel(application)
 
         CompassState(
             azimuth = effectiveAzimuth,
-            pitch = pitch,
-            roll = roll,
-            accuracy = accuracy,
+            pitch = sensorManager.pitch.value,
+            roll = sensorManager.roll.value,
+            accuracy = sensorManager.accuracy.value,
             isTrueNorth = isTrueNorth && hasPerm,
             declination = declination,
             hasLocationPermission = hasPerm,

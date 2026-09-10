@@ -26,15 +26,15 @@ data class CompassState(
         get() = "%03d°".format(azimuth.toInt().coerceIn(0, 359))
 
     val cardinalDirection: String
-        get() = when (((azimuth + 22.5f) % 360) / 45) {
-            0f, 0 -> "N"
-            1f, 1 -> "NE"
-            2f, 2 -> "E"
-            3f, 3 -> "SE"
-            4f, 4 -> "S"
-            5f, 5 -> "SW"
-            6f, 6 -> "W"
-            7f, 7 -> "NW"
+        get() = when ((((azimuth + 22.5f) % 360f) / 45f).toInt()) {
+            0 -> "N"
+            1 -> "NE"
+            2 -> "E"
+            3 -> "SE"
+            4 -> "S"
+            5 -> "SW"
+            6 -> "W"
+            7 -> "NW"
             else -> "N"
         }
 }

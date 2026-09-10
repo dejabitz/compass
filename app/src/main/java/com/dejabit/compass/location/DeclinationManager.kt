@@ -9,10 +9,13 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Tasks
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
 /**
  * Manages magnetic declination calculations using Android's offline GeomagneticField model.
@@ -39,17 +42,20 @@ class DeclinationManager(private val context: Context) {
     }
 
     @SuppressLint("MissingPermission")
-    suspend fun refreshDeclination(): Float {
+    suspend fun refreshDeclination(): Float = withContext(Dispatchers.IO) {
         if (!checkPermission()) {
             _declination.value = 0f
-            return 0f
+            return@withContext 0f
         }
 
         try {
-            // First check fast fused location
-            val location: Location? = fusedLocationClient.lastLocation.await()
-                ?: locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
-                ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            // First check fast fused location with a short timeout
+            val location: Location? = try {
+                Tasks.await(fusedLocationClient.lastLocation, 2, TimeUnit.SECONDS)
+            } catch (_: Exception) {
+                null
+            } ?: locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+              ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
             location?.let {
                 val geomagneticField = GeomagneticField(
@@ -60,11 +66,11 @@ class DeclinationManager(private val context: Context) {
                 )
                 val dec = geomagneticField.declination
                 _declination.value = dec
-                return dec
+                return@withContext dec
             }
         } catch (_: Exception) {
             // Fallback to 0 if location unavailable or provider disabled
         }
-        return _declination.value
+        return@withContext _declination.value
     }
 }
